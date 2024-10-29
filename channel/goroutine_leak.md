@@ -106,3 +106,67 @@ func leakyNetworkCall() {
 ```
 
 - **Fix**: Use **timeouts** for network or I/O operations.
+
+
+## **4. How to Prevent Goroutine Leaks**
+
+### **4.1 Use Context Cancellation**
+
+Use **`context.Context`** to control when a goroutine should exit.
+
+```go
+func startTaskWithContext(ctx context.Context) {
+    go func() {
+        for {
+            select {
+            case <-ctx.Done():
+                fmt.Println("Goroutine exiting")
+                return
+            default:
+                // Do some work.
+                time.Sleep(1 * time.Second)
+            }
+        }
+    }()
+}
+```
+
+---
+
+### **4.2 Ensure Channels Are Closed Properly**
+
+Always **close channels** to avoid blocking goroutines.
+
+```go
+ch := make(chan int)
+
+go func() {
+    for val := range ch {
+        fmt.Println(val)
+    }
+}()
+
+close(ch) // Ensure the channel is closed to prevent blocking.
+```
+
+---
+
+### **4.3 Use `sync.WaitGroup` to Manage Goroutines**
+
+Use a **`sync.WaitGroup`** to ensure all goroutines complete before the program exits.
+
+```go
+var wg sync.WaitGroup
+
+func task() {
+    defer wg.Done()
+    // Do some work.
+}
+
+func main() {
+    wg.Add(1)
+    go task()
+    wg.Wait() // Wait for all goroutines to finish.
+}
+```
+

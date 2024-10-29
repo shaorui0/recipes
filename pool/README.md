@@ -87,3 +87,16 @@ Given the scale of **5G metrics collection**, here are **ballpark numbers** for 
 | **Goroutine Pool Size (Worker Pool)** | **2× to 5× the CPU core count** (e.g., 32–64) | Depends on the processing load. More workers help if the workload is CPU-bound. |
 | **Message Queue Buffer Size** | **10,000+** messages | Buffer to handle bursts and avoid blocking if workers are busy. |
 | **Message Frequency** | **1–10 messages per second per client** | Example: Metrics reporting at high frequency from each base station. |
+
+---
+
+## **5. Recommended Pool Sizes Based on Typical 5G Scenarios**
+
+Given the scale of **5G metrics collection**, here are **ballpark numbers** for **pool sizes**:
+
+| **Metric** | **Typical Number** | **Explanation** |
+| --- | --- | --- |
+| **Concurrent Connections (Connection Pool)** | **100–1,000** | Each gNodeB, IoT device, or base station may open a stream to send metrics. |
+| **Goroutine Pool Size (Worker Pool)** | **2× to 5× the CPU core count** (e.g., 32–64) | Depends on the processing load. More workers help if the workload is CPU-bound. |
+| **Message Queue Buffer Size** | **10,000+** messages | Buffer to handle bursts and avoid blocking if workers are busy. |
+| **Message Frequency** | **1–10 messages per second per client** | Example: Metrics reporting at high frequency from each base station. |
