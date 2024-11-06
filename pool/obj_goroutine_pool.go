@@ -38,7 +38,7 @@ func NewWorkerPool(workers int) *workerPool {
 
 // worker processes metrics from the job channel.
 func (wp *workerPool) worker() {
-    for metric := range wp.jobs {
+    for metric := range wp.jobs { // waiting for job from channel
         processMetric(metric)
         metricPool.Put(metric) // Return the metric object to the pool.
     }
